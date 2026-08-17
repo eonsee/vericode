@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>验证码预览</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Microsoft YaHei", sans-serif;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    display: flex; justify-content: center; padding: 40px 20px;
+  }
+  .wrap { max-width: 560px; width: 100%; }
+  h2 { font-size: 20px; margin-bottom: 16px; color: #e0e0e0; }
+
+  .tip {
+    font-size: 13px; color: #888; margin-bottom: 10px;
+    background: #2a2a2a; padding: 10px 14px; border-radius: 6px;
+    line-height: 1.7;
+  }
+  .tip code { color: #ce9178; background: #333; padding: 1px 5px; border-radius: 3px; }
+
+  textarea {
+    width: 100%; height: 100px; padding: 12px;
+    background: #2d2d2d; border: 1px solid #444;
+    border-radius: 6px; color: #d4d4d4; font-size: 13px;
+    font-family: Consolas, monospace; resize: vertical;
+    outline: none; transition: border .2s;
+  }
+  textarea:focus { border-color: #569cd6; }
+
+  .btns {
+    display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;
+  }
+  button {
+    padding: 8px 20px; border: none; border-radius: 5px;
+    font-size: 14px; cursor: pointer; transition: opacity .15s;
+  }
+  button:hover { opacity: .85; }
+  .btn-primary { background: #0e639c; color: #fff; }
+  .btn-secondary { background: #3c3c3c; color: #ccc; }
+  .btn-danger { background: transparent; color: #f44747; border: 1px solid #f44747; }
+
+  .preview {
+    margin-top: 20px; padding: 20px; background: #252526;
+    border-radius: 8px; text-align: center; min-height: 80px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .preview img {
+    max-width: 100%; border: 1px solid #444; border-radius: 4px;
+  }
+
+  .status {
+    margin-top: 10px; font-size: 13px; color: #6a9955;
+  }
+  .status.err { color: #f44747; }
+
+  .quick-bar {
+    margin-top: 14px; display: flex; gap: 8px; align-items: center;
+  }
+  .quick-bar span { font-size: 13px; color: #888; white-space: nowrap; }
+  .quick-bar input {
+    flex: 1; padding: 6px 10px; background: #2d2d2d;
+    border: 1px solid #444; border-radius: 4px; color: #e0e0e0;
+    font-size: 14px; outline: none;
+  }
+  .quick-bar input:focus { border-color: #569cd6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>🔐 验证码预览器</h2>
+
+  <div class="tip">
+    粘贴方式（任选一种）：
+    <br>① 从 Bruno 响应里复制 <code>img</code> 的值（纯 base64），自动识别格式
+    <br>② 直接粘贴 <code>data:image/gif;base64,...</code> 完整字符串
+    <br>③ 粘贴整段 <code>{"img":"...","uuid":"..."}</code> JSON，自动提取
+    <br>粘贴后按 <b>Ctrl+Enter</b> 或点按钮即可显示
+  </div>
+
+  <textarea id="b64" placeholder="在这里粘贴 base64 或 data: URI ..." autofocus></textarea>
+
+  <div class="btns">
+    <button class="btn-primary" onclick="renderImg()">显示验证码</button>
+    <button class="btn-secondary" onclick="pasteFromClipboard()">从剪贴板粘贴</button>
+    <button class="btn-danger" onclick="clearAll()">清空</button>
+  </div>
+
+  <div style="margin-top:8px;font-size:12px;color:#666">快捷键：Ctrl+Enter 直接预览 · Ctrl+V 可粘贴</div>
+
+  <div class="preview" id="preview">等待粘贴验证码...</div>
+  <div class="status" id="status"></div>
+
+  <div class="quick-bar">
+    <span>验证码答案：</span>
+    <input id="answerInput" placeholder="看图后输入答案..." />
+    <button class="btn-primary" style="font-size:13px;padding:6px 14px;" onclick="copyAnswer()">复制答案</button>
+  </div>
+</div>
+
+<script>
+const textarea = document.getElementById('b64');
+const preview = document.getElementById('preview');
+const status  = document.getElementById('status');
+const answerInput = document.getElementById('answerInput');
+
+// Ctrl+Enter 快捷显示
+textarea.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    renderImg();
+  }
+});
+
+// 粘贴后自动渲染（粘贴完延迟 300ms）
+textarea.addEventListener('paste', function() {
+  setTimeout(renderImg, 300);
+});
+
+function smartParse(raw) {
+  // 去掉首尾空白
+  let s = raw.trim();
+  if (!s) return null;
+
+  // 情况1: 已经是完整的 data: URI
+  if (/^data:image\/\w+;base64,/.test(s)) {
+    return s;
+  }
+
+  // 情况2: 可能是 RuoYi JSON（包含 img 字段）
+  if (s.startsWith('{') && s.includes('"img"')) {
+    try {
+      const obj = JSON.parse(s);
+      if (obj.img) {
+        // 提取 uuid 也显示出来
+        if (obj.uuid) {
+          status.textContent = 'UUID: ' + obj.uuid;
+          status.className = 'status';
+        }
+        s = obj.img;
+      }
+    } catch(e) {
+      // 不是合法 JSON，继续按纯 base64 处理
+    }
+  }
+
+  // 情况3: 纯 base64，自动补 data: 前缀
+  // 尝试判断图片格式：GIF 以 R0lGOD 开头，PNG 以 iVBOR 开头，JPEG 以 /9j/ 开头
+  let mime = 'image/gif';
+  if (s.startsWith('iVBOR')) mime = 'image/png';
+  else if (s.startsWith('/9j/')) mime = 'image/jpeg';
+  else if (s.startsWith('R0lGOD')) mime = 'image/gif';
+
+  return 'data:' + mime + ';base64,' + s;
+}
+
+function renderImg() {
+  const url = smartParse(textarea.value);
+  if (!url) {
+    preview.innerHTML = '<span style="color:#f44747">未检测到有效内容</span>';
+    status.textContent = '请粘贴 base64 或 data: URI';
+    status.className = 'status err';
+    return;
+  }
+
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = '验证码';
+  img.onload = function() {
+    preview.innerHTML = '';
+    preview.appendChild(img);
+    status.textContent = '✅ 渲染成功 · 请在下方填入答案';
+    status.className = 'status';
+  };
+  img.onerror = function() {
+    preview.innerHTML = '<span style="color:#f44747">图片加载失败，请检查 base64 是否完整</span>';
+    status.textContent = '❌ 无法解析，可能是格式不支持或内容截断';
+    status.className = 'status err';
+  };
+  preview.innerHTML = '<span style="color:#888">加载中...</span>';
+  preview.appendChild(img);
+}
+
+async function pasteFromClipboard() {
+  try {
+    const text = await navigator.clipboard.readText();
+    textarea.value = text;
+    renderImg();
+  } catch(e) {
+    status.textContent = '❌ 无法读取剪贴板，请手动 Ctrl+V 粘贴';
+    status.className = 'status err';
+  }
+}
+
+function clearAll() {
+  textarea.value = '';
+  preview.innerHTML = '等待粘贴验证码...';
+  status.textContent = '';
+  status.className = 'status';
+  answerInput.value = '';
+}
+
+function copyAnswer() {
+  const val = answerInput.value.trim();
+  if (!val) {
+    status.textContent = '请先在下方输入答案';
+    status.className = 'status err';
+    return;
+  }
+  navigator.clipboard.writeText(val).then(() => {
+    status.textContent = '✅ 答案 "' + val + '" 已复制到剪贴板';
+    status.className = 'status';
+  }).catch(() => {
+    status.textContent = '❌ 复制失败，请手动复制';
+    status.className = 'status err';
+  });
+}
+</script>
+</body>
+</html>
