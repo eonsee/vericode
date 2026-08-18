@@ -3,528 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>验证码预览 · IPPure Style</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>验证码预览</title>
 <style>
-  :root {
-    --primary: #63dbeb;
-    --primary-glow: rgba(99, 219, 235, 0.35);
-    --primary-dim: rgba(99, 219, 235, 0.15);
-    --bg-deep: #0a0e17;
-    --bg-card: rgba(20, 28, 42, 0.72);
-    --bg-input: rgba(15, 22, 35, 0.6);
-    --border: rgba(99, 219, 235, 0.2);
-    --border-hover: rgba(99, 219, 235, 0.45);
-    --text: #e4edf5;
-    --text-dim: #8899aa;
-    --text-muted: #556677;
-    --success: #63dbeb;
-    --danger: #ff6b7f;
-  }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
-    font-family: 'Inter', 'JetBrains Mono', 'Microsoft YaHei', sans-serif;
-    background: var(--bg-deep);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 40px 20px;
-    position: relative;
-    overflow-x: hidden;
+    font-family: "Microsoft YaHei", sans-serif;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    display: flex; justify-content: center; padding: 40px 20px;
   }
+  .wrap { max-width: 560px; width: 100%; }
+  h2 { font-size: 20px; margin-bottom: 16px; color: #e0e0e0; }
 
-  /* ===== IPPure Style Animated Background ===== */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(99, 219, 235, 0.18) 0%, transparent 60%),
-      radial-gradient(ellipse 70% 50% at 85% 90%, rgba(99, 219, 235, 0.12) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(99, 219, 235, 0.06) 0%, transparent 60%),
-      linear-gradient(180deg, #060a13 0%, #0a0e17 30%, #0d1220 60%, #0a0e17 100%);
-    z-index: -2;
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(99, 219, 235, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(99, 219, 235, 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    z-index: -1;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-  }
-
-  /* Floating glow orbs */
-  .orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    z-index: -1;
-    pointer-events: none;
-    animation: float 20s ease-in-out infinite;
-  }
-  .orb-1 {
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(99, 219, 235, 0.25), transparent 70%);
-    top: -100px; left: -100px;
-    animation-delay: 0s;
-  }
-  .orb-2 {
-    width: 350px; height: 350px;
-    background: radial-gradient(circle, rgba(99, 219, 235, 0.18), transparent 70%);
-    bottom: -80px; right: -80px;
-    animation-delay: -7s;
-  }
-  .orb-3 {
-    width: 250px; height: 250px;
-    background: radial-gradient(circle, rgba(99, 219, 235, 0.12), transparent 70%);
-    top: 40%; right: 10%;
-    animation-delay: -14s;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(40px, -30px) scale(1.08); }
-    66% { transform: translate(-30px, 20px) scale(0.95); }
-  }
-
-  /* ===== Card / Container ===== */
-  .wrap {
-    max-width: 600px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .card {
-    background: var(--bg-card);
-    backdrop-filter: blur(24px) saturate(1.4);
-    -webkit-backdrop-filter: blur(24px) saturate(1.4);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px 32px;
-    box-shadow:
-      0 0 0 1px rgba(99, 219, 235, 0.08),
-      0 20px 60px rgba(0, 0, 0, 0.5),
-      0 0 80px rgba(99, 219, 235, 0.06);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    opacity: 0.6;
-  }
-
-  /* ===== Header ===== */
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(99, 219, 235, 0.12);
-  }
-
-  .logo-icon {
-    width: 44px; height: 44px;
-    background: linear-gradient(135deg, var(--primary), rgba(99, 219, 235, 0.6));
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 0 20px var(--primary-glow);
-    flex-shrink: 0;
-  }
-
-  .header-text h1 {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    background: linear-gradient(135deg, #fff 30%, var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .header-text .subtitle {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 2px;
-    letter-spacing: 0.02em;
-  }
-
-  /* ===== Tip Box ===== */
   .tip {
-    font-size: 12.5px;
-    color: var(--text-dim);
-    background: rgba(99, 219, 235, 0.04);
-    border: 1px solid rgba(99, 219, 235, 0.1);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 16px;
-    line-height: 1.9;
+    font-size: 13px; color: #888; margin-bottom: 10px;
+    background: #2a2a2a; padding: 10px 14px; border-radius: 6px;
+    line-height: 1.7;
   }
-
-  .tip code {
-    color: var(--primary);
-    background: rgba(99, 219, 235, 0.1);
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', Consolas, monospace;
-    font-size: 11.5px;
-    font-weight: 500;
-  }
-
-  .tip b {
-    color: var(--primary);
-    font-weight: 600;
-  }
-
-  /* ===== Textarea ===== */
-  .textarea-wrapper {
-    position: relative;
-    margin-bottom: 16px;
-  }
+  .tip code { color: #ce9178; background: #333; padding: 1px 5px; border-radius: 3px; }
 
   textarea {
-    width: 100%;
-    height: 110px;
-    padding: 14px 16px;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    color: var(--text);
-    font-size: 13px;
-    font-family: 'JetBrains Mono', Consolas, monospace;
-    resize: vertical;
-    outline: none;
-    transition: all 0.25s ease;
-    line-height: 1.6;
+    width: 100%; height: 100px; padding: 12px;
+    background: #2d2d2d; border: 1px solid #444;
+    border-radius: 6px; color: #d4d4d4; font-size: 13px;
+    font-family: Consolas, monospace; resize: vertical;
+    outline: none; transition: border .2s;
   }
+  textarea:focus { border-color: #569cd6; }
 
-  textarea::placeholder {
-    color: var(--text-muted);
-  }
-
-  textarea:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-dim), 0 0 24px rgba(99, 219, 235, 0.08);
-    background: rgba(15, 22, 35, 0.8);
-  }
-
-  /* ===== Buttons ===== */
   .btns {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
+    display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;
   }
-
   button {
-    padding: 9px 22px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
-    letter-spacing: 0.01em;
+    padding: 8px 20px; border: none; border-radius: 5px;
+    font-size: 14px; cursor: pointer; transition: opacity .15s;
   }
+  button:hover { opacity: .85; }
+  .btn-primary { background: #0e639c; color: #fff; }
+  .btn-secondary { background: #3c3c3c; color: #ccc; }
+  .btn-danger { background: transparent; color: #f44747; border: 1px solid #f44747; }
 
-  button:active { transform: scale(0.97); }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--primary), rgba(99, 219, 235, 0.7));
-    color: #0a0e17;
-    font-weight: 600;
-    box-shadow: 0 0 20px rgba(99, 219, 235, 0.25), inset 0 1px 0 rgba(255,255,255,0.15);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 28px rgba(99, 219, 235, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-  }
-
-  .btn-secondary {
-    background: rgba(99, 219, 235, 0.08);
-    color: var(--primary);
-    border-color: rgba(99, 219, 235, 0.25);
-  }
-
-  .btn-secondary:hover {
-    background: rgba(99, 219, 235, 0.14);
-    border-color: rgba(99, 219, 235, 0.4);
-  }
-
-  .btn-danger {
-    background: transparent;
-    color: var(--danger);
-    border-color: rgba(255, 107, 127, 0.3);
-  }
-
-  .btn-danger:hover {
-    background: rgba(255, 107, 127, 0.08);
-    border-color: rgba(255, 107, 127, 0.5);
-  }
-
-  .shortcut-hint {
-    font-size: 11.5px;
-    color: var(--text-muted);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .shortcut-hint kbd {
-    background: rgba(99, 219, 235, 0.1);
-    border: 1px solid rgba(99, 219, 235, 0.2);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px;
-    color: var(--primary);
-  }
-
-  /* ===== Preview Area ===== */
   .preview {
-    margin-bottom: 14px;
-    padding: 24px;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    text-align: center;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.25s ease;
+    margin-top: 20px; padding: 20px; background: #252526;
+    border-radius: 8px; text-align: center; min-height: 80px;
+    display: flex; align-items: center; justify-content: center;
   }
-
-  .preview.has-image {
-    border-color: rgba(99, 219, 235, 0.35);
-    box-shadow: 0 0 40px rgba(99, 219, 235, 0.08);
-  }
-
-  .preview-placeholder {
-    color: var(--text-muted);
-    font-size: 13px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .preview-placeholder .icon {
-    font-size: 28px;
-    opacity: 0.5;
-  }
-
   .preview img {
-    max-width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    max-width: 100%; border: 1px solid #444; border-radius: 4px;
   }
 
-  /* ===== Status ===== */
   .status {
-    font-size: 12.5px;
-    margin-bottom: 18px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    min-height: 32px;
-    display: flex;
-    align-items: center;
+    margin-top: 10px; font-size: 13px; color: #6a9955;
   }
+  .status.err { color: #f44747; }
 
-  .status.success {
-    color: var(--primary);
-    background: rgba(99, 219, 235, 0.08);
-    border: 1px solid rgba(99, 219, 235, 0.15);
-  }
-
-  .status.error {
-    color: var(--danger);
-    background: rgba(255, 107, 127, 0.08);
-    border: 1px solid rgba(255, 107, 127, 0.15);
-  }
-
-  /* ===== Quick Bar ===== */
   .quick-bar {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding-top: 18px;
-    border-top: 1px solid rgba(99, 219, 235, 0.1);
+    margin-top: 14px; display: flex; gap: 8px; align-items: center;
   }
-
-  .quick-bar label {
-    font-size: 13px;
-    color: var(--text-dim);
-    white-space: nowrap;
-    font-weight: 500;
-  }
-
+  .quick-bar span { font-size: 13px; color: #888; white-space: nowrap; }
   .quick-bar input {
-    flex: 1;
-    padding: 9px 14px;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: all 0.2s ease;
+    flex: 1; padding: 6px 10px; background: #2d2d2d;
+    border: 1px solid #444; border-radius: 4px; color: #e0e0e0;
+    font-size: 14px; outline: none;
   }
-
-  .quick-bar input::placeholder {
-    color: var(--text-muted);
-  }
-
-  .quick-bar input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-dim);
-  }
-
-  .quick-bar .btn-copy {
-    padding: 9px 18px;
-    font-size: 13px;
-    white-space: nowrap;
-  }
-
-  /* ===== Footer Brand ===== */
-  .footer-brand {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .footer-brand .dot {
-    display: inline-block;
-    width: 5px; height: 5px;
-    background: var(--primary);
-    border-radius: 50%;
-    margin: 0 8px;
-    box-shadow: 0 0 8px var(--primary);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ===== Scrollbar ===== */
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(99, 219, 235, 0.2);
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(99, 219, 235, 0.35); }
-
-  /* ===== Selection ===== */
-  ::selection {
-    background: rgba(99, 219, 235, 0.3);
-    color: #fff;
-  }
+  .quick-bar input:focus { border-color: #569cd6; }
 </style>
 </head>
 <body>
-
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
-
 <div class="wrap">
-  <div class="card">
-    <div class="header">
-      <div class="logo-icon">🔐</div>
-      <div class="header-text">
-        <h1>验证码预览器</h1>
-        <div class="subtitle">CAPTCHA · BASE64 · PREVIEW</div>
-      </div>
-    </div>
+  <h2>🔐 验证码预览器</h2>
 
-    <div class="tip">
-      <strong>粘贴方式（任选一种）：</strong><br>
-      ① 从 Bruno 响应里复制 <code>img</code> 的值（纯 base64），自动识别格式<br>
-      ② 直接粘贴 <code>data:image/gif;base64,...</code> 完整字符串<br>
-      ③ 粘贴整段 <code>{"img":"...","uuid":"..."}</code> JSON，自动提取<br>
-      粘贴后按 <b>Ctrl + Enter</b> 或点击按钮即可显示
-    </div>
-
-    <textarea id="b64" placeholder="在此粘贴 base64 或 data URI  ..." autofocus spellcheck="false"></textarea>
-
-    <div class="btns">
-      <button class="btn-primary" onclick="renderImg()">显示验证码</button>
-      <button class="btn-secondary" onclick="pasteFromClipboard()">从剪贴板粘贴</button>
-      <button class="btn-danger" onclick="clearAll()">清空</button>
-    </div>
-
-    <div class="shortcut-hint">
-      <kbd>Ctrl</kbd> + <kbd>Enter</kbd> 直接预览 · <kbd>Ctrl</kbd> + <kbd>V</kbd> 可粘贴
-    </div>
-
-    <div class="preview" id="preview">
-      <div class="preview-placeholder" id="previewPlaceholder">
-        <div class="icon">🖼️</div>
-        <span>等待粘贴验证码 ...</span>
-      </div>
-    </div>
-
-    <div class="status" id="status"></div>
-
-    <div class="quick-bar">
-      <label for="answerInput">验证码答案</label>
-      <input id="answerInput" placeholder="看图后输入答案 ..." spellcheck="false" />
-      <button class="btn-primary btn-copy" onclick="copyAnswer()">复制</button>
-    </div>
+  <div class="tip">
+    粘贴方式（任选一种）：
+    <br>① 从 Bruno 响应里复制 <code>img</code> 的值（纯 base64），自动识别格式
+    <br>② 直接粘贴 <code>data:image/gif;base64,...</code> 完整字符串
+    <br>③ 粘贴整段 <code>{"img":"...","uuid":"..."}</code> JSON，自动提取
+    <br>粘贴后按 <b>Ctrl+Enter</b> 或点按钮即可显示
   </div>
 
-  <div class="footer-brand">
-    PURE CAPTCHA <span class="dot"></span> PREVIEW TOOL
+  <textarea id="b64" placeholder="在这里粘贴 base64 或 data: URI ..." autofocus></textarea>
+
+  <div class="btns">
+    <button class="btn-primary" onclick="renderImg()">显示验证码</button>
+    <button class="btn-secondary" onclick="pasteFromClipboard()">从剪贴板粘贴</button>
+    <button class="btn-danger" onclick="clearAll()">清空</button>
+  </div>
+
+  <div style="margin-top:8px;font-size:12px;color:#666">快捷键：Ctrl+Enter 直接预览 · Ctrl+V 可粘贴</div>
+
+  <div class="preview" id="preview">等待粘贴验证码...</div>
+  <div class="status" id="status"></div>
+
+  <div class="quick-bar">
+    <span>验证码答案：</span>
+    <input id="answerInput" placeholder="看图后输入答案..." />
+    <button class="btn-primary" style="font-size:13px;padding:6px 14px;" onclick="copyAnswer()">复制答案</button>
   </div>
 </div>
 
 <script>
 const textarea = document.getElementById('b64');
-const preview  = document.getElementById('preview');
-const status   = document.getElementById('status');
+const preview = document.getElementById('preview');
+const status  = document.getElementById('status');
 const answerInput = document.getElementById('answerInput');
 
-function setStatus(msg, type) {
-  status.textContent = msg || '';
-  status.className = 'status' + (type ? ' ' + type : '');
-}
-
-function showMessage(msg, isError) {
-  const color = isError ? 'var(--danger)' : 'var(--text-muted)';
-  preview.innerHTML = '<div class="preview-placeholder" style="color:' + color + '">' + msg + '</div>';
-  preview.classList.remove('has-image');
-}
-
+// Ctrl+Enter 快捷显示
 textarea.addEventListener('keydown', function(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
     e.preventDefault();
@@ -532,30 +115,40 @@ textarea.addEventListener('keydown', function(e) {
   }
 });
 
+// 粘贴后自动渲染（粘贴完延迟 300ms）
 textarea.addEventListener('paste', function() {
   setTimeout(renderImg, 300);
 });
 
 function smartParse(raw) {
+  // 去掉首尾空白
   let s = raw.trim();
   if (!s) return null;
 
+  // 情况1: 已经是完整的 data: URI
   if (/^data:image\/\w+;base64,/.test(s)) {
     return s;
   }
 
+  // 情况2: 可能是 RuoYi JSON（包含 img 字段）
   if (s.startsWith('{') && s.includes('"img"')) {
     try {
       const obj = JSON.parse(s);
       if (obj.img) {
+        // 提取 uuid 也显示出来
         if (obj.uuid) {
-          setStatus('UUID: ' + obj.uuid, 'success');
+          status.textContent = 'UUID: ' + obj.uuid;
+          status.className = 'status';
         }
         s = obj.img;
       }
-    } catch(e) {}
+    } catch(e) {
+      // 不是合法 JSON，继续按纯 base64 处理
+    }
   }
 
+  // 情况3: 纯 base64，自动补 data: 前缀
+  // 尝试判断图片格式：GIF 以 R0lGOD 开头，PNG 以 iVBOR 开头，JPEG 以 /9j/ 开头
   let mime = 'image/gif';
   if (s.startsWith('iVBOR')) mime = 'image/png';
   else if (s.startsWith('/9j/')) mime = 'image/jpeg';
@@ -567,8 +160,9 @@ function smartParse(raw) {
 function renderImg() {
   const url = smartParse(textarea.value);
   if (!url) {
-    showMessage('未检测到有效内容', true);
-    setStatus('请粘贴 base64 或 data URI', 'error');
+    preview.innerHTML = '<span style="color:#f44747">未检测到有效内容</span>';
+    status.textContent = '请粘贴 base64 或 data: URI';
+    status.className = 'status err';
     return;
   }
 
@@ -578,16 +172,15 @@ function renderImg() {
   img.onload = function() {
     preview.innerHTML = '';
     preview.appendChild(img);
-    preview.classList.add('has-image');
-    setStatus('渲染成功 · 请在下方填入答案', 'success');
+    status.textContent = '✅ 渲染成功 · 请在下方填入答案';
+    status.className = 'status';
   };
   img.onerror = function() {
-    showMessage('图片加载失败，请检查 base64 是否完整', true);
-    setStatus('无法解析，可能是格式不支持或内容截断', 'error');
+    preview.innerHTML = '<span style="color:#f44747">图片加载失败，请检查 base64 是否完整</span>';
+    status.textContent = '❌ 无法解析，可能是格式不支持或内容截断';
+    status.className = 'status err';
   };
-
-  preview.classList.remove('has-image');
-  showMessage('加载中 ...', false);
+  preview.innerHTML = '<span style="color:#888">加载中...</span>';
   preview.appendChild(img);
 }
 
@@ -597,31 +190,34 @@ async function pasteFromClipboard() {
     textarea.value = text;
     renderImg();
   } catch(e) {
-    setStatus('无法读取剪贴板，请手动 Ctrl+V 粘贴', 'error');
+    status.textContent = '❌ 无法读取剪贴板，请手动 Ctrl+V 粘贴';
+    status.className = 'status err';
   }
 }
 
 function clearAll() {
   textarea.value = '';
-  preview.innerHTML = '<div class="preview-placeholder"><div class="icon">🖼️</div><span>等待粘贴验证码 ...</span></div>';
-  preview.classList.remove('has-image');
-  setStatus('', '');
+  preview.innerHTML = '等待粘贴验证码...';
+  status.textContent = '';
+  status.className = 'status';
   answerInput.value = '';
 }
 
 function copyAnswer() {
   const val = answerInput.value.trim();
   if (!val) {
-    setStatus('请先在下方输入答案', 'error');
+    status.textContent = '请先在下方输入答案';
+    status.className = 'status err';
     return;
   }
   navigator.clipboard.writeText(val).then(() => {
-    setStatus('已复制答案："' + val + '"', 'success');
+    status.textContent = '✅ 答案 "' + val + '" 已复制到剪贴板';
+    status.className = 'status';
   }).catch(() => {
-    setStatus('复制失败，请手动复制', 'error');
+    status.textContent = '❌ 复制失败，请手动复制';
+    status.className = 'status err';
   });
 }
 </script>
-
 </body>
 </html>

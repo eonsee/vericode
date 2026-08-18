@@ -1,8 +1,5 @@
 {
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+  "framework": "vitepress",
+  "buildCommand": "npm run build",
+  "outputDirectory": "docs/.vitepress/dist"
 }

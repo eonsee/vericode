@@ -1,0 +1,27 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "预览",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eonsee/vericode.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/eonsee/vericode/issues"
+  },
+  "homepage": "https://github.com/eonsee/vericode#readme",
+  "dependencies": {
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.41"
+  }
+}
