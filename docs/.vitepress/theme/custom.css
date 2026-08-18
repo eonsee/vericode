@@ -1,191 +1,108 @@
+/* ===== IPPure 真实配色（来自 ippure.com 实际 CSS） ===== */
 :root {
-  --vp-c-brand-1: #63dbeb;
-  --vp-c-brand-2: #3dbdcf;
-  --vp-c-brand-3: #2a9db0;
-  --vp-c-brand-soft: rgba(99, 219, 235, 0.14);
-  --vp-c-bg: #0a0e17;
-  --vp-c-bg-alt: #0d1220;
-  --vp-c-bg-elv: #141c2a;
-  --vp-c-bg-soft: #0f1623;
-  --vp-c-border: rgba(99, 219, 235, 0.15);
-  --vp-c-border-soft: rgba(99, 219, 235, 0.08);
-  --vp-c-divider: rgba(99, 219, 235, 0.12);
-  --vp-c-text-1: #e4edf5;
-  --vp-c-text-2: #8899aa;
-  --vp-c-text-3: #556677;
+  /* 主色：蓝色 + 紫色渐变 */
+  --vp-c-brand-1: #3b82f6;
+  --vp-c-brand-2: #2563eb;
+  --vp-c-brand-3: #1d4ed8;
+  --vp-c-brand-soft: rgba(59, 130, 246, 0.14);
+
+  /* 亮色模式背景 */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f8fafc;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f8fafc;
+
+  /* 边框 */
+  --vp-c-border: #e2e8f0;
+  --vp-c-border-soft: #f1f5f9;
+  --vp-c-divider: #e2e8f0;
+
+  /* 文本 */
+  --vp-c-text-1: #1e293b;
+  --vp-c-text-2: #64748b;
+  --vp-c-text-3: #94a3b8;
+
+  /* 渐变文字 */
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #63dbeb 10%, #9be7f3 90%);
-  --vp-home-hero-image-background-image: linear-gradient(135deg, rgba(99, 219, 235, 0.25), rgba(99, 219, 235, 0.05));
-  --vp-home-hero-image-filter: blur(68px);
-  --vp-button-brand-bg: linear-gradient(135deg, #63dbeb, #3dbdcf);
-  --vp-button-brand-hover-bg: linear-gradient(135deg, #7ae0ef, #4dd0e0);
+  --vp-home-hero-name-background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+
+  /* 按钮 */
+  --vp-button-brand-bg: #3b82f6;
+  --vp-button-brand-hover-bg: #2563eb;
   --vp-button-brand-border: transparent;
-  --vp-button-brand-text: #0a0e17;
-  --vp-button-brand-hover-text: #0a0e17;
-  --vp-button-brand-active-bg: linear-gradient(135deg, #52cdda, #2a9db0);
-  --vp-input-border-color: rgba(99, 219, 235, 0.25);
-  --vp-input-state-border-color: rgba(99, 219, 235, 0.6);
-  --vp-input-bg-color: rgba(15, 22, 35, 0.6);
-  --vp-input-state-bg-color: rgba(15, 22, 35, 0.8);
-  --vp-input-placeholder-color: #556677;
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-active-bg: #1d4ed8;
+
+  /* 输入框 */
+  --vp-input-border-color: #e2e8f0;
+  --vp-input-state-border-color: #3b82f6;
+  --vp-input-bg-color: #ffffff;
+  --vp-input-state-bg-color: #ffffff;
+  --vp-input-placeholder-color: #94a3b8;
 }
 
 .dark {
-  --vp-c-bg: #060a13;
-  --vp-c-bg-alt: #0a0e17;
-  --vp-c-bg-elv: #141c2a;
-  --vp-c-bg-soft: #0d1220;
+  /* 暗色模式背景 */
+  --vp-c-bg: #020617;
+  --vp-c-bg-alt: #0f172a;
+  --vp-c-bg-elv: #1e293b;
+  --vp-c-bg-soft: #0f172a;
+
+  /* 边框 */
+  --vp-c-border: #334155;
+  --vp-c-border-soft: #1e293b;
+  --vp-c-divider: #334155;
+
+  /* 文本 */
+  --vp-c-text-1: #f1f5f9;
+  --vp-c-text-2: #94a3b8;
+  --vp-c-text-3: #64748b;
+
+  /* 输入框 */
+  --vp-input-border-color: #334155;
+  --vp-input-state-border-color: #3b82f6;
+  --vp-input-bg-color: #0f172a;
+  --vp-input-state-bg-color: #1e293b;
+  --vp-input-placeholder-color: #64748b;
 }
 
-.VPDoc {
-  background: transparent;
-}
-
-.VPDoc-container {
-  padding-top: 0 !important;
-}
-
-.VPDoc-content {
-  max-width: 680px;
-}
-
-/* IPPure style background for the whole page */
-.Layout {
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(99, 219, 235, 0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 85% 90%, rgba(99, 219, 235, 0.12) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(99, 219, 235, 0.06) 0%, transparent 60%),
-    linear-gradient(180deg, #060a13 0%, #0a0e17 30%, #0d1220 60%, #0a0e17 100%);
-  min-height: 100vh;
-}
-
-.Layout::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(99, 219, 235, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99, 219, 235, 0.025) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  z-index: 0;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-}
-
+/* ===== 导航栏 ===== */
 .VPNavBar {
-  background: rgba(10, 14, 23, 0.72);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border-bottom: 1px solid rgba(99, 219, 235, 0.08);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid var(--vp-c-border);
 }
 
-.VPSidebar {
-  background: rgba(10, 14, 23, 0.88);
+.dark .VPNavBar {
+  background: rgba(2, 6, 23, 0.8);
 }
 
-.VPFooter {
-  background: transparent;
-  border-top: 1px solid rgba(99, 219, 235, 0.08);
-}
-
-/* Home hero section */
-.VPHero {
-  position: relative;
-  z-index: 1;
-}
-
+/* ===== Hero 渐变文字 ===== */
 .VPHero .name {
-  background: linear-gradient(120deg, #63dbeb 10%, #9be7f3 90%);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.VPHero .image {
-  position: relative;
-}
-
-.VPHero .image::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(99, 219, 235, 0.25), rgba(99, 219, 235, 0.05));
-  filter: blur(68px);
-  border-radius: 16px;
-  z-index: -1;
-}
-
-/* Code block styling */
-.vp-code-group .tabs,
-.vp-code-header {
-  background: rgba(15, 22, 35, 0.6);
-  border: 1px solid rgba(99, 219, 235, 0.1);
-}
-
-/* Selection */
-::selection {
-  background: rgba(99, 219, 235, 0.3);
-  color: #fff;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(99, 219, 235, 0.2);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 219, 235, 0.35);
-}
-
-/* Floating orbs for background */
-.ippure-orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(100px);
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-.ippure-orb-1 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(99, 219, 235, 0.3), transparent 70%);
-  top: -100px;
-  left: -100px;
-}
-
-.ippure-orb-2 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(99, 219, 235, 0.2), transparent 70%);
-  bottom: -80px;
-  right: -80px;
-}
-
-/* Custom component styles */
+/* ===== 验证码组件卡片 ===== */
 .captcha-card {
-  background: rgba(20, 28, 42, 0.72);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(99, 219, 235, 0.15);
-  border-radius: 20px;
+  background: var(--vp-c-bg-elv);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 16px;
   padding: 32px;
-  box-shadow:
-    0 0 0 1px rgba(99, 219, 235, 0.08),
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 0 80px rgba(99, 219, 235, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 6px -1px rgba(0, 0, 0, 0.03);
   position: relative;
   overflow: hidden;
   margin: 1.5rem 0;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.captcha-card:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 .captcha-card::before {
@@ -194,19 +111,20 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #63dbeb, transparent);
-  opacity: 0.6;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand-1), transparent);
+  opacity: 0.5;
 }
 
+/* ===== Textarea ===== */
 .captcha-textarea {
   width: 100%;
   min-height: 110px;
   padding: 14px 16px;
-  background: rgba(15, 22, 35, 0.6);
-  border: 1px solid rgba(99, 219, 235, 0.2);
+  background: var(--vp-input-bg-color);
+  border: 1px solid var(--vp-input-border-color);
   border-radius: 12px;
-  color: #e4edf5;
+  color: var(--vp-c-text-1);
   font-size: 13px;
   font-family: 'JetBrains Mono', Consolas, monospace;
   resize: vertical;
@@ -216,20 +134,20 @@
 }
 
 .captcha-textarea::placeholder {
-  color: #556677;
+  color: var(--vp-input-placeholder-color);
 }
 
 .captcha-textarea:focus {
-  border-color: #63dbeb;
-  box-shadow: 0 0 0 3px rgba(99, 219, 235, 0.15), 0 0 24px rgba(99, 219, 235, 0.08);
-  background: rgba(15, 22, 35, 0.8);
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
 }
 
+/* ===== Preview ===== */
 .captcha-preview {
   margin: 16px 0 12px;
   padding: 24px;
-  background: rgba(15, 22, 35, 0.6);
-  border: 1px solid rgba(99, 219, 235, 0.2);
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
   border-radius: 14px;
   text-align: center;
   min-height: 90px;
@@ -240,16 +158,15 @@
 }
 
 .captcha-preview.has-image {
-  border-color: rgba(99, 219, 235, 0.4);
-  box-shadow: 0 0 40px rgba(99, 219, 235, 0.08);
+  border-color: var(--vp-c-brand-1);
 }
 
 .captcha-preview img {
   max-width: 100%;
   border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
+/* ===== Buttons ===== */
 .captcha-btn {
   padding: 9px 22px;
   border: 1px solid transparent;
@@ -259,7 +176,6 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
-  letter-spacing: 0.01em;
 }
 
 .captcha-btn:active {
@@ -267,37 +183,36 @@
 }
 
 .captcha-btn-primary {
-  background: linear-gradient(135deg, #63dbeb, #3dbdcf);
-  color: #0a0e17;
+  background: var(--vp-c-brand-1);
+  color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 0 20px rgba(99, 219, 235, 0.25);
 }
 
 .captcha-btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 28px rgba(99, 219, 235, 0.4);
+  background: var(--vp-c-brand-2);
 }
 
 .captcha-btn-secondary {
-  background: rgba(99, 219, 235, 0.08);
-  color: #63dbeb;
-  border-color: rgba(99, 219, 235, 0.25);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-soft);
 }
 
 .captcha-btn-secondary:hover {
-  background: rgba(99, 219, 235, 0.14);
+  background: rgba(59, 130, 246, 0.2);
 }
 
 .captcha-btn-danger {
   background: transparent;
-  color: #ff6b7f;
-  border-color: rgba(255, 107, 127, 0.3);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
 }
 
 .captcha-btn-danger:hover {
-  background: rgba(255, 107, 127, 0.08);
+  background: rgba(239, 68, 68, 0.08);
 }
 
+/* ===== Status ===== */
 .captcha-status {
   font-size: 12.5px;
   margin: 12px 0;
@@ -309,13 +224,35 @@
 }
 
 .captcha-status.success {
-  color: #63dbeb;
-  background: rgba(99, 219, 235, 0.08);
-  border: 1px solid rgba(99, 219, 235, 0.15);
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  border: 1px solid var(--vp-c-brand-soft);
 }
 
 .captcha-status.error {
-  color: #ff6b7f;
-  background: rgba(255, 107, 127, 0.08);
-  border: 1px solid rgba(255, 107, 127, 0.15);
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+/* ===== Selection ===== */
+::selection {
+  background: rgba(59, 130, 246, 0.2);
+  color: inherit;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-text-3);
 }

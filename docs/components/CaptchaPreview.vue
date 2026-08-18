@@ -9,7 +9,7 @@ const b64Input = ref('')
 const answerInput = ref('')
 const status = ref('')
 const statusType = ref<'success' | 'error' | ''>('')
-const previewHtml = ref('<span style="color:#556677;font-size:13px;">等待粘贴验证码 ...</span>')
+const previewHtml = ref('<span class="preview-placeholder">等待粘贴验证码 ...</span>')
 const hasImage = ref(false)
 
 function setStatus(msg: string, type: 'success' | 'error' | '' = '') {
@@ -48,7 +48,7 @@ function smartParse(raw: string): string | null {
 function renderImg() {
   const url = smartParse(b64Input.value)
   if (!url) {
-    previewHtml.value = '<span style="color:#ff6b7f">未检测到有效内容</span>'
+    previewHtml.value = '<span class="preview-error">未检测到有效内容</span>'
     hasImage.value = false
     setStatus('请粘贴 base64 或 data URI', 'error')
     return
@@ -63,11 +63,11 @@ function renderImg() {
     setStatus('渲染成功 · 请在下方填入答案', 'success')
   }
   img.onerror = () => {
-    previewHtml.value = '<span style="color:#ff6b7f">图片加载失败，请检查 base64 是否完整</span>'
+    previewHtml.value = '<span class="preview-error">图片加载失败，请检查 base64 是否完整</span>'
     hasImage.value = false
     setStatus('无法解析，可能是格式不支持或内容截断', 'error')
   }
-  previewHtml.value = '<span style="color:#556677">加载中 ...</span>'
+  previewHtml.value = '<span class="preview-placeholder">加载中 ...</span>'
   hasImage.value = false
 }
 
@@ -95,7 +95,7 @@ async function pasteFromClipboard() {
 function clearAll() {
   b64Input.value = ''
   answerInput.value = ''
-  previewHtml.value = '<span style="color:#556677;font-size:13px;">等待粘贴验证码 ...</span>'
+  previewHtml.value = '<span class="preview-placeholder">等待粘贴验证码 ...</span>'
   hasImage.value = false
   setStatus('')
 }
@@ -134,7 +134,7 @@ function copyAnswer() {
         @paste="onTextareaPaste"
       ></textarea>
 
-      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+      <div class="captcha-btns">
         <button class="captcha-btn captcha-btn-primary" @click="renderImg">显示验证码</button>
         <button class="captcha-btn captcha-btn-secondary" @click="pasteFromClipboard">从剪贴板粘贴</button>
         <button class="captcha-btn captcha-btn-danger" @click="clearAll">清空</button>
@@ -144,17 +144,15 @@ function copyAnswer() {
 
       <div class="captcha-preview" :class="{ 'has-image': hasImage }" v-html="previewHtml"></div>
 
-      <div style="display:flex;gap:10px;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid rgba(99,219,235,0.1);">
-        <span style="font-size:13px;color:#8899aa;white-space:nowrap;font-weight:500;">验证码答案</span>
+      <div class="answer-bar">
+        <span class="answer-label">验证码答案</span>
         <input
           v-model="answerInput"
-          style="flex:1;padding:9px 14px;background:rgba(15,22,35,0.6);border:1px solid rgba(99,219,235,0.2);border-radius:8px;color:#e4edf5;font-size:14px;font-family:inherit;outline:none;transition:all 0.2s ease;"
+          class="captcha-answer-input"
           placeholder="看图后输入答案 ..."
           spellcheck="false"
-          @focus="($event.target as HTMLInputElement).style.borderColor = '#63dbeb'"
-          @blur="($event.target as HTMLInputElement).style.borderColor = 'rgba(99,219,235,0.2)'"
         />
-        <button class="captcha-btn captcha-btn-primary" style="white-space:nowrap;" @click="copyAnswer">复制</button>
+        <button class="captcha-btn captcha-btn-primary answer-copy-btn" @click="copyAnswer">复制</button>
       </div>
     </div>
   </div>
@@ -163,9 +161,9 @@ function copyAnswer() {
 <style scoped>
 .tip {
   font-size: 13px;
-  color: #8899aa;
-  background: rgba(99, 219, 235, 0.04);
-  border: 1px solid rgba(99, 219, 235, 0.1);
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
   border-radius: 12px;
   padding: 14px 16px;
   margin-bottom: 16px;
@@ -173,8 +171,8 @@ function copyAnswer() {
 }
 
 .tip code {
-  color: #63dbeb;
-  background: rgba(99, 219, 235, 0.1);
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
   padding: 1px 6px;
   border-radius: 4px;
   font-family: 'JetBrains Mono', Consolas, monospace;
@@ -183,7 +181,66 @@ function copyAnswer() {
 }
 
 .tip b {
-  color: #63dbeb;
+  color: var(--vp-c-brand-1);
   font-weight: 600;
+}
+
+.captcha-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.preview-placeholder {
+  color: var(--vp-c-text-3);
+  font-size: 13px;
+}
+
+.preview-error {
+  color: #ef4444;
+  font-size: 13px;
+}
+
+.answer-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.answer-label {
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.captcha-answer-input {
+  flex: 1;
+  padding: 9px 14px;
+  background: var(--vp-input-bg-color);
+  border: 1px solid var(--vp-input-border-color);
+  border-radius: 8px;
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.captcha-answer-input::placeholder {
+  color: var(--vp-input-placeholder-color);
+}
+
+.captcha-answer-input:focus {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+}
+
+.answer-copy-btn {
+  white-space: nowrap;
 }
 </style>
